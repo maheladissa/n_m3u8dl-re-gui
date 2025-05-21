@@ -1,0 +1,72 @@
+{
+  "app": {
+    "name": "N_m3u8DL-RE GUI",
+    "version": "v{{version}}"
+  },
+  "topBar": {
+    "theme": {
+      "light": "Light Mode",
+      "dark": "Dark Mode"
+    },
+    "language": {
+      "en": "English",
+      "zh": "Chinese"
+    }
+  },
+  "sideMenu": {
+    "home": "Home",
+    "history": "Download History",
+    "settings": "Settings"
+  },
+  "homePage": {
+    "welcome": "Welcome to N_m3u8DL-RE GUI",
+    "quickStart": "Quick Start",
+    "enterUrl": "Enter a URL to start downloading:",
+    "urlPlaceholder": "Enter m3u8 URL here...",
+    "download": "Download",
+    "features": "Features",
+    "featuresList": {
+      "item1": "Download HLS/m3u8 streams",
+      "item2": "Custom download options",
+      "item3": "Download history management",
+      "item4": "Multiple language support"
+    }
+  },
+  "historyPage": {
+    "title": "Download History",
+    "table": {
+      "id": "ID",
+      "url": "URL",
+      "date": "Date",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "actions": {
+      "view": "View"
+    }
+  },
+  "settingsPage": {
+    "title": "Settings",
+    "general": {
+      "title": "General Settings",
+      "downloadLocation": "Download Location",
+      "browse": "Browse",
+      "defaultFormat": "Default Format",
+      "autoStart": "Auto-start downloads"
+    },
+    "advanced": {
+      "title": "Advanced Settings",
+      "concurrentDownloads": "Concurrent Downloads",
+      "timeout": "Timeout (seconds)",
+      "debugMode": "Enable Debug Mode"
+    },
+    "actions": {
+      "save": "Save Settings",
+      "reset": "Reset to Default"
+    }
+  }
+} 

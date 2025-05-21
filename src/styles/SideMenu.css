@@ -1,0 +1,70 @@
+.side-menu {
+  width: 250px;
+  height: calc(100vh - 60px);
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  transition: width 0.3s ease;
+  position: relative;
+  border-right: 1px solid var(--border-color);
+}
+
+.side-menu.collapsed {
+  width: 60px;
+}
+
+.collapse-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 12px;
+  z-index: 2;
+}
+
+.menu-items {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 0 0 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+  background-color: var(--hover-bg);
+}
+
+.menu-item.active {
+  background-color: var(--active-bg);
+  color: var(--primary-color);
+  border-left: 3px solid var(--primary-color);
+}
+
+.menu-icon {
+  font-size: 1.2rem;
+  margin-right: 15px;
+  width: 20px;
+  text-align: center;
+}
+
+.collapsed .menu-icon {
+  margin-right: 0;
+}
+
+.menu-label {
+  font-size: 0.9rem;
+  white-space: nowrap;
+} 

@@ -1,0 +1,72 @@
+{
+  "app": {
+    "name": "N_m3u8DL-RE 图形界面",
+    "version": "v{{version}}"
+  },
+  "topBar": {
+    "theme": {
+      "light": "浅色模式",
+      "dark": "深色模式"
+    },
+    "language": {
+      "en": "英文",
+      "zh": "中文"
+    }
+  },
+  "sideMenu": {
+    "home": "首页",
+    "history": "下载历史",
+    "settings": "设置"
+  },
+  "homePage": {
+    "welcome": "欢迎使用 N_m3u8DL-RE 图形界面",
+    "quickStart": "快速开始",
+    "enterUrl": "输入URL开始下载：",
+    "urlPlaceholder": "在此输入m3u8链接...",
+    "download": "下载",
+    "features": "功能",
+    "featuresList": {
+      "item1": "下载HLS/m3u8流",
+      "item2": "自定义下载选项",
+      "item3": "下载历史管理",
+      "item4": "多语言支持"
+    }
+  },
+  "historyPage": {
+    "title": "下载历史",
+    "table": {
+      "id": "编号",
+      "url": "链接",
+      "date": "日期",
+      "status": "状态",
+      "actions": "操作"
+    },
+    "status": {
+      "completed": "已完成",
+      "failed": "失败"
+    },
+    "actions": {
+      "view": "查看"
+    }
+  },
+  "settingsPage": {
+    "title": "设置",
+    "general": {
+      "title": "常规设置",
+      "downloadLocation": "下载位置",
+      "browse": "浏览",
+      "defaultFormat": "默认格式",
+      "autoStart": "自动开始下载"
+    },
+    "advanced": {
+      "title": "高级设置",
+      "concurrentDownloads": "并发下载数",
+      "timeout": "超时时间（秒）",
+      "debugMode": "启用调试模式"
+    },
+    "actions": {
+      "save": "保存设置",
+      "reset": "恢复默认"
+    }
+  }
+} 

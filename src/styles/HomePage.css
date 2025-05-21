@@ -1,0 +1,82 @@
+.home-page {
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.home-page h1 {
+  margin-bottom: 30px;
+  color: var(--text-primary);
+}
+
+.home-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+@media (min-width: 768px) {
+  .home-content {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+.quick-start-section, .features-section {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.quick-start-section h2, .features-section h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--text-primary);
+  font-size: 1.4rem;
+}
+
+.url-input-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.url-input {
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  font-size: 1rem;
+}
+
+.url-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.download-button {
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.download-button:hover {
+  background-color: var(--primary-dark);
+}
+
+.features-section ul {
+  padding-left: 20px;
+  margin-top: 15px;
+}
+
+.features-section li {
+  margin-bottom: 10px;
+  color: var(--text-secondary);
+} 
