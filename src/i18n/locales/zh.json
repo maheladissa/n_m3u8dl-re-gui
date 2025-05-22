@@ -9,7 +9,7 @@
       "dark": "深色模式"
     },
     "language": {
-      "en": "英文",
+      "en": "English",
       "zh": "中文"
     }
   },
@@ -43,30 +43,163 @@
     },
     "status": {
       "completed": "已完成",
-      "failed": "失败"
+      "failed": "失败",
+      "downloading": "下载中",
+      "queued": "等待中",
+      "paused": "已暂停"
     },
     "actions": {
-      "view": "查看"
-    }
+      "view": "查看",
+      "delete": "删除",
+      "retry": "重试",
+      "pause": "暂停",
+      "resume": "继续"
+    },
+    "empty": "暂无下载历史",
+    "clearHistory": "清空历史",
+    "confirmClear": "确定要清空所有下载历史吗？",
+    "confirmDelete": "确定要删除这条下载记录吗？"
   },
   "settingsPage": {
     "title": "设置",
-    "general": {
-      "title": "常规设置",
-      "downloadLocation": "下载位置",
-      "browse": "浏览",
-      "defaultFormat": "默认格式",
-      "autoStart": "自动开始下载"
+    "feedback": {
+      "loading": "正在加载设置...",
+      "saving": "正在保存设置...",
+      "saved": "设置保存成功！",
+      "reset": "设置已重置为默认值！",
+      "error": "错误：{{message}}",
+      "settingsLoaded": "设置加载成功！",
+      "loadError": "加载设置失败",
+      "saveError": "保存设置失败"
     },
-    "advanced": {
+    "generalSettings": {
+      "title": "常规设置",
+      "downloadLocation": {
+        "label": "下载位置",
+        "tooltip": "下载文件的默认目录",
+        "placeholder": "选择下载目录",
+        "browse": "浏览"
+      },
+      "defaultFormat": {
+        "label": "默认格式",
+        "tooltip": "下载文件的默认输出格式"
+      },
+      "autoStart": {
+        "label": "自动开始下载",
+        "tooltip": "添加下载任务时自动开始"
+      },
+      "tmpDir": {
+        "label": "临时目录",
+        "tooltip": "下载过程中临时文件的存储目录",
+        "placeholder": "选择临时目录",
+        "browse": "浏览"
+      },
+      "downloadRetryCount": {
+        "label": "下载重试次数",
+        "tooltip": "下载失败时的重试次数"
+      },
+      "delAfterDone": {
+        "label": "完成后删除",
+        "tooltip": "下载成功后删除临时文件"
+      },
+      "subFormat": {
+        "label": "字幕格式",
+        "tooltip": "下载字幕的默认格式"
+      },
+      "autoSubtitleFix": {
+        "label": "自动修复字幕",
+        "tooltip": "自动修复字幕时间轴问题"
+      },
+      "useSystemProxy": {
+        "label": "使用系统代理",
+        "tooltip": "使用系统代理设置进行下载"
+      }
+    },
+    "advancedSettings": {
       "title": "高级设置",
-      "concurrentDownloads": "并发下载数",
-      "timeout": "超时时间（秒）",
-      "debugMode": "启用调试模式"
+      "logLevel": {
+        "label": "日志级别",
+        "tooltip": "日志记录的详细程度"
+      },
+      "concurrentDownloads": {
+        "label": "并发下载数",
+        "tooltip": "最大并发下载数量"
+      },
+      "timeout": {
+        "label": "超时时间（秒）",
+        "tooltip": "下载操作的超时时间（秒）"
+      },
+      "threadCount": {
+        "label": "线程数",
+        "tooltip": "用于下载分片的线程数量"
+      },
+      "checkSegmentsCount": {
+        "label": "检查分片数量",
+        "tooltip": "下载前验证分片数量"
+      },
+      "writeMetaJson": {
+        "label": "写入元数据JSON",
+        "tooltip": "将元数据保存为JSON文件"
+      },
+      "binaryMerge": {
+        "label": "二进制合并",
+        "tooltip": "使用二进制方式合并分片"
+      },
+      "useFfmpegConcatDemuxer": {
+        "label": "使用FFmpeg合并器",
+        "tooltip": "使用FFmpeg的concat demuxer进行合并"
+      },
+      "noDateInfo": {
+        "label": "不包含日期信息",
+        "tooltip": "输出时不包含日期信息"
+      }
     },
     "actions": {
-      "save": "保存设置",
-      "reset": "恢复默认"
+      "save": "保存更改",
+      "reset": "重置为默认值"
     }
+  },
+  "downloadPage": {
+    "title": "下载",
+    "url": {
+      "label": "链接",
+      "placeholder": "在此输入m3u8链接..."
+    },
+    "options": {
+      "title": "下载选项",
+      "format": {
+        "label": "格式",
+        "tooltip": "下载文件的输出格式"
+      },
+      "subtitle": {
+        "label": "字幕",
+        "tooltip": "下载字幕轨道"
+      },
+      "subtitleFormat": {
+        "label": "字幕格式",
+        "tooltip": "下载字幕的格式"
+      }
+    },
+    "actions": {
+      "download": "下载",
+      "cancel": "取消"
+    },
+    "status": {
+      "preparing": "准备下载...",
+      "downloading": "正在下载...",
+      "merging": "正在合并文件...",
+      "completed": "下载完成！",
+      "failed": "下载失败！"
+    }
+  },
+  "common": {
+    "yes": "是",
+    "no": "否",
+    "cancel": "取消",
+    "confirm": "确认",
+    "error": "错误",
+    "success": "成功",
+    "warning": "警告",
+    "info": "信息"
   }
 } 

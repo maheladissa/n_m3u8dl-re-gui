@@ -10,7 +10,7 @@
     },
     "language": {
       "en": "English",
-      "zh": "Chinese"
+      "zh": "中文"
     }
   },
   "sideMenu": {
@@ -43,30 +43,163 @@
     },
     "status": {
       "completed": "Completed",
-      "failed": "Failed"
+      "failed": "Failed",
+      "downloading": "Downloading",
+      "queued": "Queued",
+      "paused": "Paused"
     },
     "actions": {
-      "view": "View"
-    }
+      "view": "View",
+      "delete": "Delete",
+      "retry": "Retry",
+      "pause": "Pause",
+      "resume": "Resume"
+    },
+    "empty": "No download history",
+    "clearHistory": "Clear History",
+    "confirmClear": "Are you sure you want to clear all download history?",
+    "confirmDelete": "Are you sure you want to delete this download record?"
   },
   "settingsPage": {
     "title": "Settings",
-    "general": {
-      "title": "General Settings",
-      "downloadLocation": "Download Location",
-      "browse": "Browse",
-      "defaultFormat": "Default Format",
-      "autoStart": "Auto-start downloads"
+    "feedback": {
+      "loading": "Loading settings...",
+      "saving": "Saving settings...",
+      "saved": "Settings saved successfully!",
+      "reset": "Settings reset to default!",
+      "error": "Error: {{message}}",
+      "settingsLoaded": "Settings loaded successfully!",
+      "loadError": "Failed to load settings",
+      "saveError": "Failed to save settings"
     },
-    "advanced": {
+    "generalSettings": {
+      "title": "General Settings",
+      "downloadLocation": {
+        "label": "Download Location",
+        "tooltip": "Default directory for downloaded files",
+        "placeholder": "Select download directory",
+        "browse": "Browse"
+      },
+      "defaultFormat": {
+        "label": "Default Format",
+        "tooltip": "Default output format for downloaded files"
+      },
+      "autoStart": {
+        "label": "Auto-start Downloads",
+        "tooltip": "Automatically start downloads when added"
+      },
+      "tmpDir": {
+        "label": "Temporary Directory",
+        "tooltip": "Directory for temporary files during download",
+        "placeholder": "Select temporary directory",
+        "browse": "Browse"
+      },
+      "downloadRetryCount": {
+        "label": "Download Retry Count",
+        "tooltip": "Number of times to retry failed downloads"
+      },
+      "delAfterDone": {
+        "label": "Delete After Done",
+        "tooltip": "Delete temporary files after successful download"
+      },
+      "subFormat": {
+        "label": "Subtitle Format",
+        "tooltip": "Default format for downloaded subtitles"
+      },
+      "autoSubtitleFix": {
+        "label": "Auto Subtitle Fix",
+        "tooltip": "Automatically fix subtitle timing issues"
+      },
+      "useSystemProxy": {
+        "label": "Use System Proxy",
+        "tooltip": "Use system proxy settings for downloads"
+      }
+    },
+    "advancedSettings": {
       "title": "Advanced Settings",
-      "concurrentDownloads": "Concurrent Downloads",
-      "timeout": "Timeout (seconds)",
-      "debugMode": "Enable Debug Mode"
+      "logLevel": {
+        "label": "Log Level",
+        "tooltip": "Level of detail for logging"
+      },
+      "concurrentDownloads": {
+        "label": "Concurrent Downloads",
+        "tooltip": "Maximum number of concurrent downloads"
+      },
+      "timeout": {
+        "label": "Timeout (seconds)",
+        "tooltip": "Timeout for download operations in seconds"
+      },
+      "threadCount": {
+        "label": "Thread Count",
+        "tooltip": "Number of threads to use for downloading segments"
+      },
+      "checkSegmentsCount": {
+        "label": "Check Segments Count",
+        "tooltip": "Verify the number of segments before downloading"
+      },
+      "writeMetaJson": {
+        "label": "Write Meta JSON",
+        "tooltip": "Save metadata as JSON file"
+      },
+      "binaryMerge": {
+        "label": "Binary Merge",
+        "tooltip": "Use binary merging for segments"
+      },
+      "useFfmpegConcatDemuxer": {
+        "label": "Use FFmpeg Concat Demuxer",
+        "tooltip": "Use FFmpeg's concat demuxer for merging"
+      },
+      "noDateInfo": {
+        "label": "No Date Info",
+        "tooltip": "Don't include date information in output"
+      }
     },
     "actions": {
-      "save": "Save Settings",
+      "save": "Save Changes",
       "reset": "Reset to Default"
     }
+  },
+  "downloadPage": {
+    "title": "Download",
+    "url": {
+      "label": "URL",
+      "placeholder": "Enter m3u8 URL here..."
+    },
+    "options": {
+      "title": "Download Options",
+      "format": {
+        "label": "Format",
+        "tooltip": "Output format for the downloaded file"
+      },
+      "subtitle": {
+        "label": "Subtitle",
+        "tooltip": "Download subtitle track"
+      },
+      "subtitleFormat": {
+        "label": "Subtitle Format",
+        "tooltip": "Format for downloaded subtitles"
+      }
+    },
+    "actions": {
+      "download": "Download",
+      "cancel": "Cancel"
+    },
+    "status": {
+      "preparing": "Preparing download...",
+      "downloading": "Downloading...",
+      "merging": "Merging files...",
+      "completed": "Download completed!",
+      "failed": "Download failed!"
+    }
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information"
   }
 } 

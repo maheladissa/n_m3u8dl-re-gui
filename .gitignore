@@ -33,4 +33,7 @@ yarn-error.log*
 *.sw?
 
 # Electron
-/out 
+/out
+
+# Binary files
+/bin 

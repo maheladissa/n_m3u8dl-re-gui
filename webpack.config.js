@@ -35,4 +35,7 @@ module.exports = {
     static: './dist',
     hot: true,
   },
+  externals: {
+    'electron-store': 'commonjs electron-store',
+  },
 }
