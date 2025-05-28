@@ -41,7 +41,7 @@ const SettingsPage: React.FC = () => {
   };
 
   const handleNumberChange = (field: keyof Settings) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSettings({ ...settings, [field]: e.target.value });
+    setSettings({ ...settings, [field]: Number(e.target.value) });
     setIsDirty(true);
   };
 
