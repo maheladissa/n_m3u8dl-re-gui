@@ -56,13 +56,13 @@
 }
 
 .status-badge.completed {
-  background-color: #e6f7e6;
-  color: #2e7d32;
+  background-color: var(--status-completed-bg);
+  color: var(--status-completed-text);
 }
 
 .status-badge.failed {
-  background-color: #fdecea;
-  color: #d32f2f;
+  background-color: var(--status-failed-bg);
+  color: var(--status-failed-text);
 }
 
 .action-button {
