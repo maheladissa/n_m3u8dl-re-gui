@@ -1,7 +1,9 @@
 {
   "app": {
     "name": "N_m3u8DL-RE GUI",
-    "version": "v{{version}}"
+    "version": "v{{version}}",
+    "missingBinariesMessage": "The following required binaries are missing:\n{{binaries}}",
+    "pleaseDownload": "Please download these binaries and place them in the 'bin' directory."
   },
   "topBar": {
     "theme": {
@@ -20,9 +22,11 @@
   },
   "homePage": {
     "welcome": "Welcome to N_m3u8DL-RE GUI",
-    "quickStart": "Quick Start",
-    "enterUrl": "Enter a URL to start downloading:",
     "urlPlaceholder": "Enter m3u8 URL here...",
+    "urlRequired": "Please enter a URL",
+    "invalidUrl": "Please enter a valid URL",
+    "invalidM3u8Url": "Please enter a valid m3u8 URL",
+    "loadOptions": "Load Options",
     "download": "Download",
     "features": "Features",
     "featuresList": {
@@ -30,6 +34,48 @@
       "item2": "Custom download options",
       "item3": "Download history management",
       "item4": "Multiple language support"
+    },
+    "basicOptions": "Basic Options",
+    "saveName": "Save Name",
+    "requestHeaders": "Request Headers",
+    "editHeaders": "Edit Headers",
+    "mediaOptions": "Media Options",
+    "videoQuality": "Video Quality",
+    "loadingQualities": "Loading available qualities...",
+    "videoUnavailable": "Video stream unavailable",
+    "selectQuality": "Select video quality",
+    "audioStream": "Audio Stream",
+    "loadingAudio": "Loading available audio streams...",
+    "audioUnavailable": "Audio stream unavailable",
+    "selectAudio": "Select audio stream",
+    "subtitles": "Subtitles",
+    "loadingSubtitles": "Loading available subtitles...",
+    "subtitlesUnavailable": "Subtitles unavailable",
+    "selectSubtitles": "Select subtitles",
+    "muxingOptions": "Muxing & Merging Options",
+    "autoMerge": "Auto-Merge Audio + Video (with ffmpeg)",
+    "fastStart": "Use Fast Start (for MP4)",
+    "audioOnly": "Audio Only",
+    "addHeader": "Add Header",
+    "save": "Save",
+    "downloading": "Downloading...",
+    "downloadComplete": "Download completed successfully!",
+    "downloadFailed": "Download failed!",
+    "downloadError": "Error: {{message}}",
+    "downloadProgress": "Progress: {{progress}}",
+    "loadingOptions": "Loading options...",
+    "optionsLoadError": "Failed to load options",
+    "saveNameRequired": "Please enter a save name",
+    "videoRequired": "Please select a video quality",
+    "audioRequired": "Please select an audio stream",
+    "advancedOptions": "Advanced Options",
+    "headers": {
+      "title": "Request Headers",
+      "key": "Header name",
+      "value": "Header value",
+      "add": "Add Header",
+      "remove": "Remove",
+      "save": "Save Headers"
     }
   },
   "historyPage": {
@@ -201,5 +247,25 @@
     "success": "Success",
     "warning": "Warning",
     "info": "Information"
+  },
+  "streamSelection": {
+    "video": {
+      "title": "Video Quality",
+      "select": "Select video quality",
+      "unavailable": "Video stream unavailable",
+      "loading": "Loading video options..."
+    },
+    "audio": {
+      "title": "Audio Stream",
+      "select": "Select audio stream",
+      "unavailable": "Audio stream unavailable",
+      "loading": "Loading audio options..."
+    },
+    "subtitle": {
+      "title": "Subtitles",
+      "select": "Select subtitles",
+      "unavailable": "Subtitles unavailable",
+      "loading": "Loading subtitle options..."
+    }
   }
 } 

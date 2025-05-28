@@ -1,68 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { invoke } from '@tauri-apps/api/tauri';
+import { open } from '@tauri-apps/api/dialog';
 import '../styles/SettingsPage.css';
-
-interface Settings {
-  // General Settings
-  downloadLocation: string;
-  defaultFormat: string;
-  autoStart: boolean;
-  tmpDir: string;
-  downloadRetryCount: number;
-  delAfterDone: boolean;
-  subFormat: 'SRT' | 'VTT';
-  autoSubtitleFix: boolean;
-  useSystemProxy: boolean;
-  
-  // Advanced Settings
-  concurrentDownloads: number;
-  timeout: number;
-  threadCount: number;
-  checkSegmentsCount: boolean;
-  writeMetaJson: boolean;
-  binaryMerge: boolean;
-  useFfmpegConcatDemuxer: boolean;
-  noDateInfo: boolean;
-  logLevel: 'DEBUG' | 'ERROR' | 'INFO' | 'OFF' | 'WARN';
-}
-
-declare global {
-  interface Window {
-    electron: {
-      settings: {
-        get: () => Promise<Settings>;
-        set: (settings: Settings) => Promise<boolean>;
-        selectDirectory: () => Promise<string | null>;
-      };
-    };
-  }
-}
+import { Settings } from '../types/tauri';
 
 const SettingsPage: React.FC = () => {
   const { t } = useTranslation();
-  const [settings, setSettings] = useState<Settings>({
-    // General Settings
-    downloadLocation: '',
-    defaultFormat: 'mp4',
-    autoStart: false,
-    tmpDir: '',
-    downloadRetryCount: 3,
-    delAfterDone: true,
-    subFormat: 'SRT',
-    autoSubtitleFix: true,
-    useSystemProxy: true,
-    
-    // Advanced Settings
-    concurrentDownloads: 2,
-    timeout: 60,
-    threadCount: 16,
-    checkSegmentsCount: true,
-    writeMetaJson: true,
-    binaryMerge: false,
-    useFfmpegConcatDemuxer: false,
-    noDateInfo: false,
-    logLevel: 'INFO'
-  });
+  const [settings, setSettings] = useState<Settings>({});
   const [isDirty, setIsDirty] = useState(false);
   const [feedback, setFeedback] = useState<{
     message: string;
@@ -82,7 +27,7 @@ const SettingsPage: React.FC = () => {
 
   const loadSettings = async () => {
     try {
-      const savedSettings = await window.electron.settings.get();
+      const savedSettings = await invoke<Settings>('get_settings');
       setSettings(savedSettings);
       showFeedback(t('settingsPage.feedback.settingsLoaded'), 'success');
     } catch (error) {
@@ -90,9 +35,51 @@ const SettingsPage: React.FC = () => {
     }
   };
 
-  const handleSave = async () => {
+  const handleInputChange = (field: keyof Settings) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSettings({ ...settings, [field]: e.target.value });
+    setIsDirty(true);
+  };
+
+  const handleNumberChange = (field: keyof Settings) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSettings({ ...settings, [field]: e.target.value });
+    setIsDirty(true);
+  };
+
+  const handleFormatChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSettings({ ...settings, default_format: e.target.value });
+    setIsDirty(true);
+  };
+
+  const handleSubFormatChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSettings({ ...settings, sub_format: e.target.value as "SRT" | "VTT" });
+    setIsDirty(true);
+  };
+
+  const handleLogLevelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSettings({ ...settings, log_level: e.target.value });
+    setIsDirty(true);
+  };
+
+  const handleCheckboxChange = (field: keyof Settings) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSettings({ ...settings, [field]: e.target.checked });
+    setIsDirty(true);
+  };
+
+  const handleDirectorySelect = async (field: keyof Settings) => {
+    const selected = await open({
+      directory: true,
+      multiple: false,
+    });
+
+    if (selected) {
+      setSettings({ ...settings, [field]: selected as string });
+      setIsDirty(true);
+    }
+  };
+
+  const handleSaveSettings = async () => {
     try {
-      await window.electron.settings.set(settings);
+      await invoke('set_settings', { settings });
       setIsDirty(false);
       showFeedback(t('settingsPage.feedback.saved'), 'success');
     } catch (error) {
@@ -100,51 +87,15 @@ const SettingsPage: React.FC = () => {
     }
   };
 
-  const handleReset = () => {
-    loadSettings();
-    setIsDirty(false);
-    showFeedback(t('settingsPage.feedback.reset'), 'success');
-  };
-
-  const handleDirectorySelect = async (key: 'downloadLocation' | 'tmpDir') => {
-    const selectedPath = await window.electron.settings.selectDirectory();
-    if (selectedPath) {
-      setSettings(prev => ({ ...prev, [key]: selectedPath }));
-      setIsDirty(true);
+  const handleResetSettings = async () => {
+    try {
+      await invoke('set_settings', { settings: {} });
+      await loadSettings();
+      setIsDirty(false);
+      showFeedback(t('settingsPage.feedback.reset'), 'success');
+    } catch (error) {
+      showFeedback(t('settingsPage.feedback.error', { message: error }), 'error');
     }
-  };
-
-  const handleFormatChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSettings(prev => ({ ...prev, defaultFormat: e.target.value as 'mp4' | 'ts' }));
-    setIsDirty(true);
-  };
-
-  const handleSubFormatChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSettings(prev => ({ ...prev, subFormat: e.target.value as 'SRT' | 'VTT' }));
-    setIsDirty(true);
-  };
-
-  const handleLogLevelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSettings(prev => ({ ...prev, logLevel: e.target.value as 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'OFF' }));
-    setIsDirty(true);
-  };
-
-  const handleInputChange = (key: keyof Settings) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSettings(prev => ({ ...prev, [key]: e.target.value }));
-    setIsDirty(true);
-  };
-
-  const handleNumberChange = (key: keyof Settings) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10);
-    if (!isNaN(value)) {
-      setSettings(prev => ({ ...prev, [key]: value }));
-      setIsDirty(true);
-    }
-  };
-
-  const handleCheckboxChange = (key: keyof Settings) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSettings(prev => ({ ...prev, [key]: e.target.checked }));
-    setIsDirty(true);
   };
 
   return (
@@ -169,11 +120,11 @@ const SettingsPage: React.FC = () => {
               <div className="path-input">
                 <input
                   type="text"
-                  value={settings.downloadLocation}
-                  onChange={handleInputChange('downloadLocation')}
+                  value={settings.download_location || ''}
+                  onChange={handleInputChange('download_location')}
                   placeholder={t('settingsPage.generalSettings.downloadLocation.placeholder')}
                 />
-                <button onClick={() => handleDirectorySelect('downloadLocation')}>
+                <button onClick={() => handleDirectorySelect('download_location')}>
                   {t('settingsPage.generalSettings.downloadLocation.browse')}
                 </button>
               </div>
@@ -183,7 +134,7 @@ const SettingsPage: React.FC = () => {
               <label data-tooltip={t('settingsPage.generalSettings.defaultFormat.tooltip')}>
                 {t('settingsPage.generalSettings.defaultFormat.label')}
               </label>
-              <select value={settings.defaultFormat} onChange={handleFormatChange}>
+              <select value={settings.default_format || 'mp4'} onChange={handleFormatChange}>
                 <option value="mp4">MP4</option>
                 <option value="ts">TS</option>
                 <option value="mkv">MKV</option>
@@ -197,11 +148,11 @@ const SettingsPage: React.FC = () => {
               <div className="path-input">
                 <input
                   type="text"
-                  value={settings.tmpDir}
-                  onChange={handleInputChange('tmpDir')}
+                  value={settings.tmp_dir || ''}
+                  onChange={handleInputChange('tmp_dir')}
                   placeholder={t('settingsPage.generalSettings.tmpDir.placeholder')}
                 />
-                <button onClick={() => handleDirectorySelect('tmpDir')}>
+                <button onClick={() => handleDirectorySelect('tmp_dir')}>
                   {t('settingsPage.generalSettings.tmpDir.browse')}
                 </button>
               </div>
@@ -215,8 +166,8 @@ const SettingsPage: React.FC = () => {
                 type="number"
                 min="1"
                 max="10"
-                value={settings.downloadRetryCount}
-                onChange={handleNumberChange('downloadRetryCount')}
+                value={settings.download_retry_count || '3'}
+                onChange={handleNumberChange('download_retry_count')}
               />
             </div>
 
@@ -224,8 +175,8 @@ const SettingsPage: React.FC = () => {
               <label data-tooltip={t('settingsPage.generalSettings.subFormat.tooltip')}>
                 {t('settingsPage.generalSettings.subFormat.label')}
               </label>
-              <select value={settings.subFormat} onChange={handleSubFormatChange}>
-                <option value="SRT">SRT</option>
+              <select value={settings.sub_format || 'SRT'} onChange={handleSubFormatChange}>
+                <option value="SRT">SRR</option>
                 <option value="VTT">VTT</option>
               </select>
             </div>
@@ -233,21 +184,9 @@ const SettingsPage: React.FC = () => {
             <div className="setting-item checkbox">
               <input
                 type="checkbox"
-                id="autoStart"
-                checked={settings.autoStart}
-                onChange={handleCheckboxChange('autoStart')}
-              />
-              <label htmlFor="autoStart" data-tooltip={t('settingsPage.generalSettings.autoStart.tooltip')}>
-                {t('settingsPage.generalSettings.autoStart.label')}
-              </label>
-            </div>
-
-            <div className="setting-item checkbox">
-              <input
-                type="checkbox"
                 id="delAfterDone"
-                checked={settings.delAfterDone}
-                onChange={handleCheckboxChange('delAfterDone')}
+                checked={settings.del_after_done || false}
+                onChange={handleCheckboxChange('del_after_done')}
               />
               <label htmlFor="delAfterDone" data-tooltip={t('settingsPage.generalSettings.delAfterDone.tooltip')}>
                 {t('settingsPage.generalSettings.delAfterDone.label')}
@@ -258,8 +197,8 @@ const SettingsPage: React.FC = () => {
               <input
                 type="checkbox"
                 id="autoSubtitleFix"
-                checked={settings.autoSubtitleFix}
-                onChange={handleCheckboxChange('autoSubtitleFix')}
+                checked={settings.auto_subtitle_fix || false}
+                onChange={handleCheckboxChange('auto_subtitle_fix')}
               />
               <label htmlFor="autoSubtitleFix" data-tooltip={t('settingsPage.generalSettings.autoSubtitleFix.tooltip')}>
                 {t('settingsPage.generalSettings.autoSubtitleFix.label')}
@@ -270,11 +209,23 @@ const SettingsPage: React.FC = () => {
               <input
                 type="checkbox"
                 id="useSystemProxy"
-                checked={settings.useSystemProxy}
-                onChange={handleCheckboxChange('useSystemProxy')}
+                checked={settings.use_system_proxy || false}
+                onChange={handleCheckboxChange('use_system_proxy')}
               />
               <label htmlFor="useSystemProxy" data-tooltip={t('settingsPage.generalSettings.useSystemProxy.tooltip')}>
                 {t('settingsPage.generalSettings.useSystemProxy.label')}
+              </label>
+            </div>
+
+            <div className="setting-item checkbox">
+              <input
+                type="checkbox"
+                id="autoStart"
+                checked={settings.auto_start || false}
+                onChange={handleCheckboxChange('auto_start')}
+              />
+              <label htmlFor="autoStart" data-tooltip={t('settingsPage.generalSettings.autoStart.tooltip')}>
+                {t('settingsPage.generalSettings.autoStart.label')}
               </label>
             </div>
           </div>
@@ -288,7 +239,7 @@ const SettingsPage: React.FC = () => {
               <label data-tooltip={t('settingsPage.advancedSettings.logLevel.tooltip')}>
                 {t('settingsPage.advancedSettings.logLevel.label')}
               </label>
-              <select value={settings.logLevel} onChange={handleLogLevelChange}>
+              <select value={settings.log_level || 'INFO'} onChange={handleLogLevelChange}>
                 <option value="DEBUG">DEBUG</option>
                 <option value="INFO">INFO</option>
                 <option value="WARN">WARN</option>
@@ -304,9 +255,9 @@ const SettingsPage: React.FC = () => {
               <input
                 type="number"
                 min="1"
-                max="5"
-                value={settings.concurrentDownloads}
-                onChange={handleNumberChange('concurrentDownloads')}
+                max="10"
+                value={settings.concurrent_downloads || '1'}
+                onChange={handleNumberChange('concurrent_downloads')}
               />
             </div>
 
@@ -316,9 +267,9 @@ const SettingsPage: React.FC = () => {
               </label>
               <input
                 type="number"
-                min="10"
-                max="300"
-                value={settings.timeout}
+                min="1"
+                max="3600"
+                value={settings.timeout || '30'}
                 onChange={handleNumberChange('timeout')}
               />
             </div>
@@ -331,8 +282,8 @@ const SettingsPage: React.FC = () => {
                 type="number"
                 min="1"
                 max="32"
-                value={settings.threadCount}
-                onChange={handleNumberChange('threadCount')}
+                value={settings.thread_count || '16'}
+                onChange={handleNumberChange('thread_count')}
               />
             </div>
 
@@ -340,8 +291,8 @@ const SettingsPage: React.FC = () => {
               <input
                 type="checkbox"
                 id="checkSegmentsCount"
-                checked={settings.checkSegmentsCount}
-                onChange={handleCheckboxChange('checkSegmentsCount')}
+                checked={settings.check_segments_count || false}
+                onChange={handleCheckboxChange('check_segments_count')}
               />
               <label htmlFor="checkSegmentsCount" data-tooltip={t('settingsPage.advancedSettings.checkSegmentsCount.tooltip')}>
                 {t('settingsPage.advancedSettings.checkSegmentsCount.label')}
@@ -352,8 +303,8 @@ const SettingsPage: React.FC = () => {
               <input
                 type="checkbox"
                 id="writeMetaJson"
-                checked={settings.writeMetaJson}
-                onChange={handleCheckboxChange('writeMetaJson')}
+                checked={settings.write_meta_json || false}
+                onChange={handleCheckboxChange('write_meta_json')}
               />
               <label htmlFor="writeMetaJson" data-tooltip={t('settingsPage.advancedSettings.writeMetaJson.tooltip')}>
                 {t('settingsPage.advancedSettings.writeMetaJson.label')}
@@ -364,8 +315,8 @@ const SettingsPage: React.FC = () => {
               <input
                 type="checkbox"
                 id="binaryMerge"
-                checked={settings.binaryMerge}
-                onChange={handleCheckboxChange('binaryMerge')}
+                checked={settings.binary_merge || false}
+                onChange={handleCheckboxChange('binary_merge')}
               />
               <label htmlFor="binaryMerge" data-tooltip={t('settingsPage.advancedSettings.binaryMerge.tooltip')}>
                 {t('settingsPage.advancedSettings.binaryMerge.label')}
@@ -376,8 +327,8 @@ const SettingsPage: React.FC = () => {
               <input
                 type="checkbox"
                 id="useFfmpegConcatDemuxer"
-                checked={settings.useFfmpegConcatDemuxer}
-                onChange={handleCheckboxChange('useFfmpegConcatDemuxer')}
+                checked={settings.use_ffmpeg_concat_demuxer || false}
+                onChange={handleCheckboxChange('use_ffmpeg_concat_demuxer')}
               />
               <label htmlFor="useFfmpegConcatDemuxer" data-tooltip={t('settingsPage.advancedSettings.useFfmpegConcatDemuxer.tooltip')}>
                 {t('settingsPage.advancedSettings.useFfmpegConcatDemuxer.label')}
@@ -388,8 +339,8 @@ const SettingsPage: React.FC = () => {
               <input
                 type="checkbox"
                 id="noDateInfo"
-                checked={settings.noDateInfo}
-                onChange={handleCheckboxChange('noDateInfo')}
+                checked={settings.no_date_info || false}
+                onChange={handleCheckboxChange('no_date_info')}
               />
               <label htmlFor="noDateInfo" data-tooltip={t('settingsPage.advancedSettings.noDateInfo.tooltip')}>
                 {t('settingsPage.advancedSettings.noDateInfo.label')}
@@ -398,19 +349,18 @@ const SettingsPage: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="settings-actions">
         <button 
-          className={`save-button ${isDirty ? 'dirty' : ''}`}
-          onClick={handleSave}
+          className="save-button" 
+          onClick={handleSaveSettings}
           disabled={!isDirty}
         >
           {t('settingsPage.actions.save')}
         </button>
         <button 
-          className={`reset-button ${isDirty ? 'dirty' : ''}`}
-          onClick={handleReset}
-          disabled={!isDirty}
+          className="reset-button" 
+          onClick={handleResetSettings}
         >
           {t('settingsPage.actions.reset')}
         </button>

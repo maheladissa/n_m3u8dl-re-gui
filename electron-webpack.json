@@ -1,6 +1,0 @@
-{
-  "whiteListedModules": ["electron-store"],
-  "preload": {
-    "js": "./preload.js"
-  }
-}

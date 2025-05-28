@@ -1,7 +1,9 @@
 {
   "app": {
     "name": "N_m3u8DL-RE 图形界面",
-    "version": "v{{version}}"
+    "version": "v{{version}}",
+    "missingBinariesMessage": "以下必需的二进制文件缺失：\n{{binaries}}",
+    "pleaseDownload": "请下载这些二进制文件并将其放置在 'bin' 目录中。"
   },
   "topBar": {
     "theme": {
@@ -20,9 +22,8 @@
   },
   "homePage": {
     "welcome": "欢迎使用 N_m3u8DL-RE 图形界面",
-    "quickStart": "快速开始",
-    "enterUrl": "输入URL开始下载：",
     "urlPlaceholder": "在此输入m3u8链接...",
+    "loadOptions": "加载选项",
     "download": "下载",
     "features": "功能",
     "featuresList": {
@@ -30,6 +31,48 @@
       "item2": "自定义下载选项",
       "item3": "下载历史管理",
       "item4": "多语言支持"
+    },
+    "basicOptions": "基本选项",
+    "saveName": "保存名称",
+    "requestHeaders": "请求头",
+    "editHeaders": "编辑请求头",
+    "mediaOptions": "媒体选项",
+    "videoQuality": "视频质量",
+    "loadingQualities": "正在加载可用质量...",
+    "videoUnavailable": "视频流不可用",
+    "selectQuality": "选择视频质量",
+    "audioStream": "音频流",
+    "loadingAudio": "正在加载可用音频流...",
+    "audioUnavailable": "音频流不可用",
+    "selectAudio": "选择音频流",
+    "subtitles": "字幕",
+    "loadingSubtitles": "正在加载可用字幕...",
+    "subtitlesUnavailable": "字幕不可用",
+    "selectSubtitles": "选择字幕",
+    "muxingOptions": "混流与合并选项",
+    "autoMerge": "自动合并音视频（使用ffmpeg）",
+    "fastStart": "使用快速启动（MP4格式）",
+    "audioOnly": "仅下载音频",
+    "addHeader": "添加请求头",
+    "save": "保存",
+    "downloading": "正在下载...",
+    "downloadComplete": "下载完成！",
+    "downloadFailed": "下载失败！",
+    "downloadError": "错误：{{message}}",
+    "downloadProgress": "进度：{{progress}}",
+    "loadingOptions": "正在加载选项...",
+    "optionsLoadError": "加载选项失败",
+    "urlRequired": "请输入链接",
+    "saveNameRequired": "请输入保存名称",
+    "videoRequired": "请选择视频质量",
+    "audioRequired": "请选择音频流",
+    "headers": {
+      "title": "请求头",
+      "key": "请求头名称",
+      "value": "请求头值",
+      "add": "添加请求头",
+      "remove": "删除",
+      "save": "保存请求头"
     }
   },
   "historyPage": {
@@ -201,5 +244,25 @@
     "success": "成功",
     "warning": "警告",
     "info": "信息"
+  },
+  "streamSelection": {
+    "video": {
+      "title": "视频质量",
+      "select": "选择视频质量",
+      "unavailable": "视频流不可用",
+      "loading": "正在加载视频选项..."
+    },
+    "audio": {
+      "title": "音频流",
+      "select": "选择音频流",
+      "unavailable": "音频流不可用",
+      "loading": "正在加载音频选项..."
+    },
+    "subtitle": {
+      "title": "字幕",
+      "select": "选择字幕",
+      "unavailable": "字幕不可用",
+      "loading": "正在加载字幕选项..."
+    }
   }
 } 

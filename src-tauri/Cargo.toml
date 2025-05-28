@@ -1,0 +1,21 @@
+[package]
+name = "n_m3u8dl_gui"
+version = "1.0.0"
+description = "N_m3u8DL-RE GUI"
+authors = ["you"]
+license = ""
+repository = ""
+edition = "2021"
+rust-version = "1.57"
+
+[build-dependencies]
+tauri-build = { version = "1.5", features = [] }
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tauri = { version = "1.5", features = ["shell-all", "dialog-all", "fs-all", "path-all"] }
+regex = "1.10.2"
+
+[features]
+custom-protocol = ["tauri/custom-protocol"] 
