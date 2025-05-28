@@ -287,9 +287,12 @@ async fn start_download(window: Window, options: DownloadOptions, state: State<'
         println!("Processing audio stream: {:?}", audio_stream);
         let parts: Vec<&str> = audio_stream.description.split(" | ").collect();
         if parts.len() >= 4 {
+            let id = parts[0];
+            let name = parts[1];
+            let lang = parts[2];
+            let ch = parts[3];
             args.push("-sa".to_string());
-            args.push(format!("id={}:name={}:lang={}:ch={}", 
-                parts[0], parts[1], parts[2], parts[3]));
+            args.push(format!("id={}:name={}:lang={}:ch={}", id, name, lang, ch));
             println!("Added audio stream args: {:?}", &args[args.len()-2..]);
         } else {
             println!("Warning: Invalid audio stream format: {:?}", parts);
@@ -300,9 +303,11 @@ async fn start_download(window: Window, options: DownloadOptions, state: State<'
         println!("Processing subtitles: {:?}", subtitles);
         let parts: Vec<&str> = subtitles.description.split(" | ").collect();
         if parts.len() >= 3 {
+            let id = parts[0];
+            let name = parts[1];
+            let lang = parts[2];
             args.push("-ss".to_string());
-            args.push(format!("id={}:name={}:lang={}", 
-                parts[0], parts[1], parts[2]));
+            args.push(format!("id={}:name={}:lang={}", id, name, lang));
             println!("Added subtitle args: {:?}", &args[args.len()-2..]);
         } else {
             println!("Warning: Invalid subtitle format: {:?}", parts);
@@ -319,24 +324,25 @@ async fn start_download(window: Window, options: DownloadOptions, state: State<'
     }
 
     // Add other options from settings
-    println!("Adding settings from state: {:?}", state);
+    let settings = state.lock().unwrap();
+
     args.extend_from_slice(&[
         "--save-dir".to_string(),
-        state.lock().unwrap().download_location.clone().unwrap_or_else(|| {
+        settings.download_location.clone().unwrap_or_else(|| {
             path::download_dir().unwrap().join("m3u8").to_string_lossy().into_owned()
         }),
         "--tmp-dir".to_string(),
-        state.lock().unwrap().tmp_dir.clone().unwrap_or_else(|| {
+        settings.tmp_dir.clone().unwrap_or_else(|| {
             path::download_dir().unwrap().join("m3u8/Temp").to_string_lossy().into_owned()
         }),
         "--thread-count".to_string(),
-        state.lock().unwrap().thread_count.clone().unwrap_or_else(|| "16".to_string()),
+        settings.thread_count.clone().unwrap_or_else(|| "16".to_string()),
         "--download-retry-count".to_string(),
-        state.lock().unwrap().download_retry_count.clone().unwrap_or_else(|| "3".to_string()),
+        settings.download_retry_count.clone().unwrap_or_else(|| "3".to_string()),
         "--sub-format".to_string(),
-        state.lock().unwrap().sub_format.clone().unwrap_or_else(|| "SRT".to_string()),
+        settings.sub_format.clone().unwrap_or_else(|| "SRT".to_string()),
         "--log-level".to_string(),
-        state.lock().unwrap().log_level.clone().unwrap_or_else(|| "INFO".to_string()),
+        settings.log_level.clone().unwrap_or_else(|| "INFO".to_string()),
         "--force-ansi-console".to_string(),
     ]);
     println!("Final args: {:?}", args);
