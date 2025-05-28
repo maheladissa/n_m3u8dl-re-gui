@@ -176,7 +176,7 @@ const SettingsPage: React.FC = () => {
                 {t('settingsPage.generalSettings.subFormat.label')}
               </label>
               <select value={settings.sub_format || 'SRT'} onChange={handleSubFormatChange}>
-                <option value="SRT">SRR</option>
+                <option value="SRT">SRT</option>
                 <option value="VTT">VTT</option>
               </select>
             </div>
